@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /**
  Florian Klaessen
@@ -76,27 +77,35 @@ int day_of_the_year(int day, int month, int year) {
 }
 
 //returns the day of the week
-char weekday(int day, int month, int year) {
+void weekday(int day, int month, int year, char helper[]) {
     int daysOfYear = day_of_the_year(day, month, year);
     int weekday = daysOfYear % 7;
-
+    
         switch(weekday){
         case 1:
-            return 'M';
+            strcpy(helper, "Monday");
+            break;
         case 2:
-            return 'T';
+            strcpy(helper, "Tuesday");
+            break;
         case 3:
-            return 'W';
+            strcpy(helper, "Wednesday");
+            break;
         case 4:
-            return 'T';
+            strcpy(helper, "Thursday");
+            break;
         case 5:
-            return 'F';
+            strcpy(helper, "Friday");
+            break;
         case 6:
-            return 'S';
+            strcpy(helper, "Saturday");
+            break;
         case 7:
-            return 'S';
+            strcpy(helper, "Sunday");
+            break;
         default:
-            return '\0';
+            strcpy(helper, "Error");
+            break;
     }
 }
 
@@ -129,15 +138,18 @@ int main()
     int year = 0;
     int month = 0;
     int day = 0;
-
+    char helper[20];
+   
     //loop input while date is invalid
     while (!exists_date(day, month, year)){
         //input
         input_date(&day, &month, &year);
  }
-    //output
-    printf("Day of year: %i\n", day_of_the_year(day, month, year));
-    printf("Weekday: %c\n", weekday(day, month, year));
-    printf("Calendar week: %i\n", calendar_week(day, month, year));
-    return 0;
+
+weekday(day, month, year, helper);
+//output
+printf("Day of year: %i\n", day_of_the_year(day, month, year));
+printf("Weekday: %s\n", helper);
+printf("Calendar week: %i\n", calendar_week(day, month, year));
+return 0;
 }
