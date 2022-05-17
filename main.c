@@ -62,7 +62,6 @@ int exists_date(int day, int month, int year){
             return 0;
         }
         return 1;
-    
 }
 
 //returns number of days for a given date
@@ -74,6 +73,42 @@ int day_of_the_year(int day, int month, int year) {
     }
     daysOfYear += day;
     return daysOfYear;
+}
+
+//returns the day of the week
+char weekday(int day, int month, int year) {
+    int daysOfYear = day_of_the_year(day, month, year);
+    int weekday = daysOfYear % 7;
+
+        switch(weekday){
+        case 1:
+            return 'M';
+        case 2:
+            return 'T';
+        case 3:
+            return 'W';
+        case 4:
+            return 'T';
+        case 5:
+            return 'F';
+        case 6:
+            return 'S';
+        case 7:
+            return 'S';
+        default:
+            return '\0';
+    }
+}
+
+//returns the day of the week
+int calendar_week(int day, int month, int year) {
+    int daysOfYear = day_of_the_year(day, month, year);
+    int weekday = daysOfYear % 7;
+    int week = daysOfYear / 7;
+    if(weekday == 0) {
+        return week;
+    }
+    return week + 1;
 }
 
 //saves user input to variables
@@ -102,5 +137,7 @@ int main()
  }
     //output
     printf("Day of year: %i\n", day_of_the_year(day, month, year));
+    printf("Weekday: %c\n", weekday(day, month, year));
+    printf("Calendar week: %i\n", calendar_week(day, month, year));
     return 0;
 }
