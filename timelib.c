@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdio.h>
+#include "timelib.h"
 
 //returns true if leap year, false if not and -1 if error
 int is_leapyear(int year) {
@@ -38,17 +39,17 @@ int get_days_for_month(int month, int year) {
 }
 
 //checks if the date is valid
-int exists_date(int day, int month, int year){
+int exists_date(struct date date) {
 
-        if(month > 12 && month < 1) {
+        if(date.month > 12 && date.month < 1) {
             printf("The given date is invalid\n");
             return 0;
         }
-        if (get_days_for_month(month, year) < day) {
+        if (get_days_for_month(date.month, date.year) < date.day) {
             printf("The given date is invalid\n");
             return 0;
         }
-        if(year > 2400 || year <1582){
+        if(date.year > 2400 || date.year <1582){
             printf("The given date must be betweern 1582 and 2400\n");
             return 0;
         } else {
@@ -58,19 +59,19 @@ int exists_date(int day, int month, int year){
 }
 
 //returns number of days for a given date
-int day_of_the_year(int day, int month, int year) {
+int day_of_the_year(struct date date) {
     int daysOfYear = 0;
     //add days per motnh
-    for(int i =0; i < (month-1); i++) {
-        daysOfYear += get_days_for_month(i+1, year);
+    for(int i =0; i < (date.month-1); i++) {
+        daysOfYear += get_days_for_month(i+1, date.year);
     }
-    daysOfYear += day;
+    daysOfYear += date.day;
     return daysOfYear;
 }
 
 //returns the day of the week
-void weekday(int day, int month, int year, char helper[]) {
-    int daysOfYear = day_of_the_year(day, month, year);
+void weekday(struct date date, char helper[]) {
+    int daysOfYear = day_of_the_year(date);
     int weekday = daysOfYear % 7;
     
         switch(weekday){
@@ -102,8 +103,8 @@ void weekday(int day, int month, int year, char helper[]) {
 }
 
 //returns the day of the week
-int calendar_week(int day, int month, int year) {
-    int daysOfYear = day_of_the_year(day, month, year);
+int calendar_week(struct date date) {
+    int daysOfYear = day_of_the_year(date);
     int weekday = daysOfYear % 7;
     int week = daysOfYear / 7;
     if(weekday == 0) {
@@ -112,8 +113,8 @@ int calendar_week(int day, int month, int year) {
     return week + 1;
 }
 
-//saves user input to variables
-void input_date(int *day, int *month, int *year) {
+//old version using pointers and ints
+/*void input_date(int *day, int *month, int *year) {
     
     printf("Day of year calculator\n");
     printf("Enter day: ");
@@ -122,4 +123,18 @@ void input_date(int *day, int *month, int *year) {
     scanf("%d", month);
     printf("Enter year: ");
     scanf("%d", year);
+}*/
+struct date input_date() {
+    struct date date;
+    
+    printf("Day of year calculator\n");
+    printf("Enter day: ");
+    scanf("%d", &date.day);
+    printf("Enter month: ");
+    scanf("%d", &date.month);
+    printf("Enter year: ");
+    scanf("%d", &date.year);
+
+    return date;
+    
 }
