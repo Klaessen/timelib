@@ -8,7 +8,7 @@
  16.05.22 dayOfYear
  **/
 
-int main()
+int main(int argc, char *argv[])
 {
     //variables
     struct date date;
